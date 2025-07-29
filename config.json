@@ -1,0 +1,53 @@
+{
+  "mt5_config": {
+    "login": 109037222,
+    "password": "RezaFx2005#",
+    "server": "Exness-MT5Real6",
+    "timeout": 10000
+  },
+  "telegram_config": {
+    "token": "7719605642:AAHXK6mnAmvd4cVrUMXfpHU1o2MtsYGIUtI",
+    "chat_id": "8177651268",
+    "parse_mode": "Markdown"
+  },
+  "trading_config": {
+    "symbols": [
+      "BTCUSD",
+      "XAUUSD", 
+      "EURUSD",
+      "GBPUSD",
+      "USDJPY",
+      "ETHUSD",
+      "USDCAD"
+    ],
+    "timeframes": [5, 15, 60],
+    "lookback_periods": 500,
+    "confidence_threshold": 0.75,
+    "max_response_time": 5,
+    "risk_reward_ratio": 2.0,
+    "max_signals_per_hour": 10
+  },
+  "ai_config": {
+    "model_types": ["random_forest", "xgboost", "gradient_boost"],
+    "ensemble_voting": true,
+    "retrain_interval_hours": 24,
+    "feature_selection": true,
+    "cross_validation": true,
+    "hyperparameter_tuning": false
+  },
+  "performance_config": {
+    "enable_logging": true,
+    "log_level": "INFO",
+    "save_predictions": true,
+    "track_accuracy": true,
+    "backup_models": true,
+    "cache_duration_minutes": 1
+  },
+  "risk_management": {
+    "max_drawdown_percent": 10,
+    "position_size_percent": 2,
+    "stop_loss_atr_multiplier": 1.0,
+    "take_profit_atr_multiplier": 2.0,
+    "trailing_stop": false
+  }
+}
