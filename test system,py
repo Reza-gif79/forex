@@ -1,0 +1,305 @@
+#!/usr/bin/env python3
+"""
+AI Trading Bot Advanced - System Test Script
+Test all components before running the main bot
+"""
+
+import sys
+import time
+import json
+from datetime import datetime
+
+def test_imports():
+    """Test all required imports"""
+    print("🔍 Testing imports...")
+    
+    try:
+        import MetaTrader5 as mt5
+        print("  ✅ MetaTrader5")
+    except ImportError:
+        print("  ❌ MetaTrader5 - Install with: pip install MetaTrader5")
+        return False
+    
+    try:
+        import pandas as pd
+        print("  ✅ Pandas")
+    except ImportError:
+        print("  ❌ Pandas - Install with: pip install pandas")
+        return False
+    
+    try:
+        import numpy as np
+        print("  ✅ NumPy")
+    except ImportError:
+        print("  ❌ NumPy - Install with: pip install numpy")
+        return False
+    
+    try:
+        from telegram import Bot
+        print("  ✅ Telegram")
+    except ImportError:
+        print("  ❌ Telegram - Install with: pip install python-telegram-bot")
+        return False
+    
+    try:
+        import sklearn
+        print("  ✅ Scikit-learn")
+    except ImportError:
+        print("  ❌ Scikit-learn - Install with: pip install scikit-learn")
+        return False
+    
+    try:
+        import xgboost
+        print("  ✅ XGBoost")
+    except ImportError:
+        print("  ❌ XGBoost - Install with: pip install xgboost")
+        return False
+    
+    try:
+        import ta
+        print("  ✅ Technical Analysis")
+    except ImportError:
+        print("  ❌ TA - Install with: pip install ta")
+        return False
+    
+    return True
+
+def test_config():
+    """Test configuration file"""
+    print("\n🔍 Testing configuration...")
+    
+    try:
+        with open('config.json', 'r') as f:
+            config = json.load(f)
+        print("  ✅ Config file loaded")
+        
+        # Check required sections
+        required_sections = ['mt5_config', 'telegram_config', 'trading_config', 'ai_config']
+        for section in required_sections:
+            if section in config:
+                print(f"  ✅ {section} section found")
+            else:
+                print(f"  ❌ {section} section missing")
+                return False
+        
+        return True
+        
+    except FileNotFoundError:
+        print("  ❌ config.json not found")
+        return False
+    except json.JSONDecodeError:
+        print("  ❌ config.json invalid JSON format")
+        return False
+
+def test_mt5_connection():
+    """Test MT5 connection"""
+    print("\n🔍 Testing MT5 connection...")
+    
+    try:
+        import MetaTrader5 as mt5
+        
+        if not mt5.initialize():
+            print(f"  ❌ MT5 initialization failed: {mt5.last_error()}")
+            return False
+        
+        print("  ✅ MT5 initialized successfully")
+        
+        # Test basic functions
+        terminal_info = mt5.terminal_info()
+        if terminal_info:
+            print(f"  ✅ Terminal info: {terminal_info.name}")
+        
+        # Test symbol info
+        symbol_info = mt5.symbol_info("EURUSD")
+        if symbol_info:
+            print("  ✅ Symbol info accessible")
+        else:
+            print("  ⚠️ Symbol info not available (may need login)")
+        
+        mt5.shutdown()
+        return True
+        
+    except Exception as e:
+        print(f"  ❌ MT5 test failed: {e}")
+        return False
+
+def test_telegram_bot():
+    """Test Telegram bot token"""
+    print("\n🔍 Testing Telegram bot...")
+    
+    try:
+        with open('config.json', 'r') as f:
+            config = json.load(f)
+        
+        token = config['telegram_config']['token']
+        
+        from telegram import Bot
+        bot = Bot(token=token)
+        
+        # Test bot info
+        bot_info = bot.get_me()
+        print(f"  ✅ Bot connected: @{bot_info.username}")
+        
+        return True
+        
+    except Exception as e:
+        print(f"  ❌ Telegram test failed: {e}")
+        return False
+
+def test_ai_components():
+    """Test AI/ML components"""
+    print("\n🔍 Testing AI components...")
+    
+    try:
+        import pandas as pd
+        import numpy as np
+        from sklearn.ensemble import RandomForestClassifier
+        from sklearn.preprocessing import StandardScaler
+        import xgboost as xgb
+        
+        # Create sample data
+        X = np.random.rand(100, 10)
+        y = np.random.randint(0, 2, 100)
+        
+        # Test Random Forest
+        rf = RandomForestClassifier(n_estimators=10, random_state=42)
+        rf.fit(X, y)
+        print("  ✅ Random Forest working")
+        
+        # Test XGBoost
+        xgb_model = xgb.XGBClassifier(n_estimators=10, random_state=42)
+        xgb_model.fit(X, y)
+        print("  ✅ XGBoost working")
+        
+        # Test Scaler
+        scaler = StandardScaler()
+        X_scaled = scaler.fit_transform(X)
+        print("  ✅ StandardScaler working")
+        
+        return True
+        
+    except Exception as e:
+        print(f"  ❌ AI components test failed: {e}")
+        return False
+
+def test_technical_analysis():
+    """Test technical analysis library"""
+    print("\n🔍 Testing technical analysis...")
+    
+    try:
+        import pandas as pd
+        import numpy as np
+        import ta
+        
+        # Create sample OHLCV data
+        dates = pd.date_range('2023-01-01', periods=100, freq='H')
+        df = pd.DataFrame({
+            'open': np.random.rand(100) * 100 + 1000,
+            'high': np.random.rand(100) * 100 + 1050,
+            'low': np.random.rand(100) * 100 + 950,
+            'close': np.random.rand(100) * 100 + 1000,
+            'volume': np.random.rand(100) * 1000
+        }, index=dates)
+        
+        # Test indicators
+        df['rsi'] = ta.momentum.rsi(df['close'])
+        df['macd'] = ta.trend.MACD(df['close']).macd()
+        df['bb_high'] = ta.volatility.BollingerBands(df['close']).bollinger_hband()
+        
+        print("  ✅ RSI calculation working")
+        print("  ✅ MACD calculation working")
+        print("  ✅ Bollinger Bands working")
+        
+        return True
+        
+    except Exception as e:
+        print(f"  ❌ Technical analysis test failed: {e}")
+        return False
+
+def performance_test():
+    """Test system performance"""
+    print("\n🔍 Testing performance...")
+    
+    try:
+        import time
+        import pandas as pd
+        import numpy as np
+        
+        # Test data processing speed
+        start_time = time.time()
+        
+        # Simulate market data processing
+        data = np.random.rand(1000, 50)
+        df = pd.DataFrame(data)
+        
+        # Simulate indicator calculations
+        for i in range(10):
+            df[f'ma_{i}'] = df[0].rolling(window=10+i).mean()
+        
+        processing_time = time.time() - start_time
+        
+        print(f"  ✅ Data processing time: {processing_time:.3f} seconds")
+        
+        if processing_time < 2.0:
+            print("  ✅ Performance: EXCELLENT (< 2s)")
+        elif processing_time < 5.0:
+            print("  ✅ Performance: GOOD (< 5s)")
+        else:
+            print("  ⚠️ Performance: SLOW (> 5s)")
+        
+        return processing_time < 10.0
+        
+    except Exception as e:
+        print(f"  ❌ Performance test failed: {e}")
+        return False
+
+def main():
+    """Run all tests"""
+    print("🧪 AI Trading Bot Advanced - System Test")
+    print("=" * 50)
+    
+    tests = [
+        ("Import Test", test_imports),
+        ("Configuration Test", test_config),
+        ("MT5 Connection Test", test_mt5_connection),
+        ("Telegram Bot Test", test_telegram_bot),
+        ("AI Components Test", test_ai_components),
+        ("Technical Analysis Test", test_technical_analysis),
+        ("Performance Test", performance_test)
+    ]
+    
+    passed = 0
+    total = len(tests)
+    
+    for test_name, test_func in tests:
+        print(f"\n{'='*20} {test_name} {'='*20}")
+        try:
+            if test_func():
+                passed += 1
+                print(f"✅ {test_name}: PASSED")
+            else:
+                print(f"❌ {test_name}: FAILED")
+        except Exception as e:
+            print(f"❌ {test_name}: ERROR - {e}")
+    
+    print("\n" + "="*60)
+    print(f"📊 TEST RESULTS: {passed}/{total} tests passed")
+    
+    if passed == total:
+        print("🎉 ALL TESTS PASSED! System ready to run.")
+        print("\n💡 To start the bot:")
+        print("   python run_bot.py")
+        print("   or")
+        print("   python ai_trading_bot_advanced.py")
+    else:
+        print("⚠️ Some tests failed. Please fix issues before running the bot.")
+        print("\n💡 Check the error messages above and:")
+        print("   1. Install missing dependencies")
+        print("   2. Configure MT5 and Telegram settings")
+        print("   3. Run tests again")
+    
+    print("\n" + "="*60)
+    input("Press Enter to exit...")
+
+if __name__ == "__main__":
+    main()
