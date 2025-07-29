@@ -26,7 +26,7 @@ AI Trading Bot Advanced adalah sistem trading otomatis yang menggunakan teknolog
 ### Step 1: Clone Repository
 
 ```bash
-git clone https://github.com/your-repo/ai-trading-bot-advanced.git
+git clone https://github.com/Reza-gif79/forex.git
 cd ai-trading-bot-advanced
 ```
 
