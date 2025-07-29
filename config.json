@@ -1,13 +1,13 @@
 {
   "mt5_config": {
-    "login": 109037222,
-    "password": "RezaFx2005#",
-    "server": "Exness-MT5Real6",
+    "login": 109037123,
+    "password": "password_you",
+    "server": "selver_you",
     "timeout": 10000
   },
   "telegram_config": {
-    "token": "7719605642:AAHXK6mnAmvd4cVrUMXfpHU1o2MtsYGIUtI",
-    "chat_id": "8177651268",
+    "token": "token_you",
+    "chat_id": "id_you",
     "parse_mode": "Markdown"
   },
   "trading_config": {
