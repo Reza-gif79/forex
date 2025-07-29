@@ -20,11 +20,11 @@ pip install -r requirements.txt
 ### Step 2: Configure Settings
 Edit [`ai_trading_bot_advanced.py`](ai_trading_bot_advanced.py) line 16-24:
 ```python
-"mt5_login": 109037222,           # Ganti dengan login MT5 Anda
-"mt5_password": "RezaFx2005#",   # Ganti dengan password MT5
-"mt5_server": "Exness-MT5Real6",       # Ganti dengan server broker
-"telegram_token": "7719605642:AAHXK6mnAmvd4cVrUMXfpHU1o2MtsYGIUtI",    # Token dari @BotFather
-"chat_id": "8177651268",            # Chat ID Telegram Anda
+"mt5_login": 10905423,           # Ganti dengan login MT5 Anda
+"mt5_password": "pw_you#",   # Ganti dengan password MT5
+"mt5_server": "selver_you",       # Ganti dengan server broker
+"telegram_token": "token_tele_you",    # Token dari @BotFather
+"chat_id": "id_you",            # Chat ID Telegram Anda
 ```
 
 ### Step 3: Test System
